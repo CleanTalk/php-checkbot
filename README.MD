@@ -3,9 +3,9 @@ This guideline will help you to use CleanTalk check_bot API method via the speci
 1. Download the lib and unpack it to your website filesystem. Look at the suggested files structure with unpacked data highlighted:
 <br><br>![files_structure.png](files_structure.png)
    <br><br>
-2. Add the CleanTalk Bot-detector JS library wrapper `https://moderate.cleantalk.org/ct-bot-detector-wrapper.js` as `<script>`tag to the HTML page contains the form you want to protect.
+2. Add the CleanTalk Bot-detector JS library wrapper `https://fd.cleantalk.org/ct-bot-detector-wrapper.js` as `<script>`tag to the HTML page contains the form you want to protect.
 ```html
-<script src="https://moderate.cleantalk.org/ct-bot-detector-wrapper.js"></script>
+<script src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"></script>
 ```
 3. Fill the [config.php](src%2FCleantalk%2Fconfig.php). 
 ```php
@@ -46,7 +46,7 @@ if ( $is_bot ) {
    <meta charset="UTF-8">
    <title>Title</title>
    <!--Bot-detector JS library wrapper. This script must be added to the HTML of the page.-->
-   <script src="https://moderate.cleantalk.org/ct-bot-detector-wrapper.js"></script>
+   <script src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"></script>
 </head>
 <body>
    <form method="post" action="your_form_handler.php">

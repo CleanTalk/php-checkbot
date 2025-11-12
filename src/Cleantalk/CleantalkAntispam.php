@@ -63,6 +63,6 @@ class CleantalkAntispam
 
 	public function frontendScript()
 	{
-		echo '<script type="text/javascript" src="https://moderate.cleantalk.org/ct-bot-detector-wrapper.js"></script>';
+		echo '<script type="text/javascript" src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"></script>';
 	}
 }
