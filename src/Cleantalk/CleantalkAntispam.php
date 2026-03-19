@@ -40,7 +40,7 @@ class CleantalkAntispam
 		$ct_request = new CleantalkRequest();
 
 		$ct_request->auth_key = $this->apikey;
-		$ct_request->agent = 'php-api';
+		$ct_request->agent = 'php-checkbot';
 		$ct_request->sender_email = $sender_email;
 		$ct_request->sender_ip = $sender_ip;
 		$ct_request->sender_nickname = $sender_nickname;
