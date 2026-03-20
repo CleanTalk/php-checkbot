@@ -1,43 +1,42 @@
 This guideline will help you to use CleanTalk check_bot API method via the special library that can be downloaded from this repo.
 ## Usage
-1. Download the lib and unpack it to your website filesystem. Look at the suggested files structure with unpacked data highlighted:
-<br><br>![files_structure.png](files_structure.png)
-   <br><br>
-2. Add the CleanTalk Bot-detector JS library wrapper `https://fd.cleantalk.org/ct-bot-detector-wrapper.js` as `<script>`tag to the HTML page contains the form you want to protect.
+1. Install the package via composer
+
+`composer install cleantalk/php-checkbot`
+
+2. Include the composer autoloader into your app
+
+`require_once 'vendor/autoloader.php';`
+
+3. Add the CleanTalk Bot-detector JS library wrapper `https://fd.cleantalk.org/ct-bot-detector-wrapper.js` as `<script>`tag to the HTML page contains the form you want to protect.
+
 ```html
 <script src="https://fd.cleantalk.org/ct-bot-detector-wrapper.js"></script>
 ```
-3. Fill the [config.php](src%2FCleantalk%2Fconfig.php). 
-```php
-src/FCleantalk/config.php
-```
-&nbsp;&nbsp;&nbsp;&nbsp;Obligatory properties are:
-   * access_key - your CleanTalk Anti-Spam access key. If you do not have a key, [register the new account](https://cleantalk.org/register?utm_source=github&utm_medium=article&utm_campaign=instructions&utm_content=link&utm_term=create+account) or [access dashboard](https://cleantalk.org/my?utm_source=github&utm_medium=referral&utm_campaign=bot_detector&utm_content=link&utm_term=dashboard) to an existing account to get it.
-   * trust_cleantalk_decision - set this to true if you do not want to set custom checking settings
 
-4. To start use CheckBot library, include "yourpath/src/autoloader.php" into the top of codepage where you want to perform the check.
-```php
-require_once 'yourpath/src/autoloader.php';
-```
-5. Then create a new CleanTalk\CheckBot object, provide $_POST or filtered POST data to the constructor.
+4. Prepare config and create a new CleanTalk\CheckBot object, provide $_POST or filtered POST data to the constructor.
 
 ```php
-$bot_checker = new \Cleantalk\CheckBot($_POST);
+$check_bot_config = array(
+    'access_key' => "YOUR-CLEANTALK-API-KEY"
+);
+$config = new \Cleantalk\CheckBot\CheckBotConfig($check_bot_config);
+$bot_checker = new \Cleantalk\CheckBot\CheckBot($config, $_POST);
 ```
 
-6. Then perform the check:
+5. Then perform the check:
 ```php
 $is_bot = $bot_checker->check()->getVerdict();
 ```
 
-7. Then do the actions depending on the verdict.
+6. Then do the actions depending on the verdict.
 ```php
 if ( $is_bot ) {
   die ($bot_checker->getBlockMessage());
 }
 ```
 
-8. How it looks in the suggested files structure:
+7. How it looks in the suggested files structure:
 - `index.html`:
 ```html
 <!DOCTYPE html>
@@ -60,8 +59,8 @@ if ( $is_bot ) {
 - `your_form_handler.php`:
 ```php
 <?php
-//your_libs\cleantalk_check_bot\src
-require_once 'your_libs/cleantalk_check_bot/src/autoloader.php';
+
+require_once 'vendor/autoload.php';
 
 if ( empty($_POST) ) {
     return;
@@ -81,7 +80,11 @@ function handle_search_form($post)
     }
 
     //create a new CheckBot object 
-    $bot_checker = new \Cleantalk\CheckBot($post);
+    $check_bot_config = array(
+      'access_key' => "YOUR-CLEANTALK-API-KEY"
+    );
+    $config = new \Cleantalk\CheckBot\CheckBotConfig($check_bot_config);
+    $bot_checker = new \Cleantalk\CheckBot\CheckBot($config, $_POST);
 
     //call visitor check and make decision
     $is_bot = $bot_checker->check()->getVerdict();
@@ -95,14 +98,13 @@ function handle_search_form($post)
 ```
 ## Config setup explanation
 
-### Default config.php
+### Available config array elements
 ```php
 <?php
-global $check_bot_config;
 $check_bot_config = array(
     'access_key' => "",
     'trust_cleantalk_decision' => true,
-    'block_no_js_visitors' => true,
+    'block_no_js_visitors' => false,
     'common_block_message' => 'Visitor blocked. It seems to be a bot.',
     'bot_expectation' => 0.5,
     'ip_frequency_24hour' => 50,
