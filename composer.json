@@ -15,10 +15,5 @@
     ],
     "require": {
         "cleantalk/antispam": "*"
-    },
-    "config": {
-        "allow-plugins": {
-            "cleantalk/apbct-installer": false
-        }
     }
 }
