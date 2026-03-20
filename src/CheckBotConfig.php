@@ -1,6 +1,6 @@
 <?php
 
-namespace Cleantalk;
+namespace Cleantalk\CheckBot;
 
 class CheckBotConfig
 {
@@ -16,41 +16,28 @@ class CheckBotConfig
 
     public $access_key = '';
     public $trust_cleantalk_decision = true;
-    public $block_no_js_visitors = true;
+    public $block_no_js_visitors = false;
     public $common_block_message = 'Visitor blocked. It seems to be a bot.';
-    public $do_log = true;
+    public $do_log = false;
     public $bot_expectation = 0.5;
     public $ip_frequency_24hour = 50;
     public $ip_frequency_1hour = 15;
     public $ip_frequency_10min = 5;
 
-    public function __construct()
+    public function __construct($config_array)
     {
-    }
-
-    public function loadConfig()
-    {
-        try {
-            require_once 'config.php';
-            global $check_bot_config;
-
-            if (empty($check_bot_config) || !$this->isObligatoryParamsPresented($check_bot_config) ) {
-                throw new \Exception('CheckBot config: not enough params set. Load defaults.');
-            }
-
-            foreach ( $check_bot_config as $param_name => $param ) {
-                if ( property_exists(static::class, $param_name) ) {
-                    $type = gettype($this->$param_name);
-                    $this->$param_name = $param;
-                    settype($this->$param_name, $type);
-                }
-            }
-        } catch (\Exception $e) {
-            return array('success' => false, 'msg' => $e->getMessage());
+        if (empty($config_array) || !$this->isObligatoryParamsPresented($config_array) ) {
+            throw new \Exception('CheckBot config: not enough params set. Load defaults.');
         }
 
-        return array('success' => true, 'msg' => 'custom config loaded.' . var_export($this, true));
-
+        foreach ( $config_array as $param_name => $param ) {
+            if ( property_exists(static::class, $param_name) ) {
+                $type = gettype($this->$param_name);
+                $this->$param_name = $param;
+                settype($this->$param_name, $type);
+            }
+        }
+        
     }
 
     public function __get($name)

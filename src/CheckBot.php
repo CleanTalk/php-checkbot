@@ -1,6 +1,10 @@
 <?php
 
-namespace Cleantalk;
+namespace Cleantalk\CheckBot;
+
+use Cleantalk\Common\Antispam\Cleantalk;
+use Cleantalk\Common\Antispam\CleantalkRequest;
+use Cleantalk\Common\Antispam\CleantalkResponse;
 
 class CheckBot
 {
@@ -32,12 +36,10 @@ class CheckBot
 
     private $request_success = true;
 
-    public function __construct(array $post_data)
+    public function __construct(CheckBotConfig $config, $post_data = [])
     {
+        $this->config = $config;
         $this->post = $post_data;
-        $this->config = new CheckBotConfig();
-        $load_config_result = $this->config->loadConfig();
-        $this->writeLog($load_config_result['msg']);
     }
 
     /**
@@ -70,7 +72,6 @@ class CheckBot
      */
     private function checkBotApiCall()
     {
-
         $ct_request = new CleantalkRequest();
         $ct_request->event_token = $this->event_token;
         $ct_request->auth_key = $this->config->access_key;
@@ -80,7 +81,7 @@ class CheckBot
         }
 
         $ct = new Cleantalk();
-        $ct->server_url = $ct_request::CLEANTALK_API_URL;
+        $ct->server_url = 'https://moderate.cleantalk.org';
         $ct_result = $ct->checkBot($ct_request);
         $this->writeLog('raw result: ' . var_export($ct_result, true));
 
