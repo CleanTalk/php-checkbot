@@ -1,0 +1,19 @@
+{
+    "name": "cleantalk/php-checkbot",
+    "description": "The best app to filter bots during the simple page viewing",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Cleantalk\\CheckBot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "CleanTalk Team",
+            "email": "plugins@cleantalk.org"
+        }
+    ],
+    "require": {
+        "cleantalk/antispam": "*"
+    }
+}
