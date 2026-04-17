@@ -23,6 +23,7 @@ class CheckBotConfig
     public $ip_frequency_24hour = 50;
     public $ip_frequency_1hour = 15;
     public $ip_frequency_10min = 5;
+    public $event_token_enabled = false;
 
     public function __construct($config_array)
     {
@@ -37,7 +38,7 @@ class CheckBotConfig
                 settype($this->$param_name, $type);
             }
         }
-        
+
     }
 
     public function __get($name)
