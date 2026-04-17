@@ -4,8 +4,8 @@ namespace Cleantalk\CheckBot;
 
 class CheckBotConfig
 {
-    private $obligatory_properties = array('access_key',
-        'trust_cleantalk_decision',
+    private $obligatory_properties = array(
+        'access_key',
     );
 
     public $custom_checks_properties = array('bot_expectation',
