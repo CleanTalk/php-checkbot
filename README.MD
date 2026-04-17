@@ -20,23 +20,38 @@ This guideline will help you to use CleanTalk check_bot API method via the speci
 $check_bot_config = array(
     'access_key' => "YOUR-CLEANTALK-API-KEY"
 );
+```
+
+5. Add necessary parameter `event_token_enabled` into config
+If you correctly added the JS library wrapper to the HTML page, you can use the `event_token_enabled` parameter in the config. This will allow you to get more accurate bot detection results.
+
+```php
+$check_bot_config = array(
+    'access_key' => "YOUR-CLEANTALK-API-KEY",
+    'event_token_enabled' => true // <- Only if CleanTalk Bot-detector JS library wrapper has been included to the page
+);
+```
+
+6. Then create the CleanTalk\CheckBot object, provide $_POST or filtered POST data to the constructor:
+
+```php
 $config = new \Cleantalk\CheckBot\CheckBotConfig($check_bot_config);
 $bot_checker = new \Cleantalk\CheckBot\CheckBot($config, $_POST);
 ```
 
-5. Then perform the check:
+7. Then perform the check:
 ```php
 $is_bot = $bot_checker->check()->getVerdict();
 ```
 
-6. Then do the actions depending on the verdict.
+8. Then do the actions depending on the verdict.
 ```php
 if ( $is_bot ) {
   die ($bot_checker->getBlockMessage());
 }
 ```
 
-7. How it looks in the suggested files structure:
+9. How it looks in the suggested files structure:
 - `index.html`:
 ```html
 <!DOCTYPE html>

@@ -68,13 +68,19 @@ class CheckBot
 
     /**
      * Call check_bot CleanTalk API method. Return false on failure, CleantalkResponse obj on succes.
-     * @return CleantalkResponse|false
+     *
+     * @return CleantalkResponse
+     *
+     * @throws \Exception
      */
     private function checkBotApiCall()
     {
         $ct_request = new CleantalkRequest();
         $ct_request->event_token = $this->event_token;
         $ct_request->auth_key = $this->config->access_key;
+        if ( ! is_null($this->config->event_token_enabled) ) {
+            $ct_request->event_token_enabled = $this->config->event_token_enabled;
+        }
 
         if ( empty($ct_request->auth_key) ) {
             throw new \Exception('access key is empty. Check skipped.');
